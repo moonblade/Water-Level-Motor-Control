@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "water-level-indicator-a555e",
+  "private_key_id": "81463e26b5ffb4b70430cd5df423c7e4897cd60f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCuz7VAWJyZT/rr\nnzSmLENZxWESmnAeV9hKYaQwM/vIb8+iWmfKwuvR6uEKXbHPCAgmHPBGKJQDfrUS\nQVZIKT5LvttKqLNBZRipHtpSajFnf0/XHJt7J/7tBkZy5ZHbC4kGFXTjKiHPHaj8\nJVs3m3vmD29QuHR7MLmc+wCO8VAUjqh5uOHQMhuHvM8UGolwAHnK/xHzXtPXQg3P\nzB/2iUajSEjEGn5W6mNaVoXPS82ejKlgNMM558slUI6Hc8Kzd43waIjy6tZtIDlu\nTy7us4/mBM/dWLinGq9imk6uSq6AXZwpCsrVSShOEFfaqiycur/jA2BNYY22Xb2a\nalyOzIFPAgMBAAECggEAMQL2T+yoN0nX0ZEI+2Akn/o5fbREJBXABBa9KHCisq86\nmUvcltowsOG4J6ZeUGvxkPIDIcCFwzcWwGAGN2Qs3aLMq/GBlJ+qGtyWHI4+fMSS\nl36jTxPHIyBjxxn7W10wFT8Vzw0EfqPTuaIloYEb60Q/kvOsYM+n8s3i+bDJoYFo\nsQOuKDgjKVmziYq777qdVndB7X//n2w0xeqisVeUDlXhuTVURrQlp5qDIdq3Q+gW\nCcxLckpk9qPUO9lK/397cykGyb3RK0qxSSB09D9+oHoBuVjb2b5Js896M6+AaGeb\nLKoYVjXwC/o8gf4pLHmNBAAMyGfUQzaSiftLp/DJ6QKBgQDoUuQ2aXWIOBS4fjsp\nswaOi2Qw5kowZZk/m1nh89UZyC0F2sPu8hdE7lAoVsIy1AymJuU5L2xS5D6Flzz1\nAgcukWHPzaNsgThC/pZngrqKZ91DTdLsWOjL1gXJ46fj/vNNqXBSvsLPiYmBGucW\nmLiQZag7V4X9m6P6VfgaRd4QWQKBgQDAoF8T/i1cBxsUmMC1jE2Ic/myfE+CBXhY\nlhQXxD3FxYh57A+omp5aHl0VcURWmribSH4I+G9mmfY08PH1ethmMGiwdH8xc8Fj\nzQmM+QK6IhLe45GDLhmK90O+6HgdbNueCpwUCRcWHAnxR7DRgF2WvdrdgkmJHBmr\naE99I4mp5wKBgQDFQPv7JvdfvR36t1LMSPCcPsXGrwD2roy7cM+UBU8+ILP5cJFD\nY9FV+XGdjmw8c8Z5nDSrpRQ4HQroqkxbSmmGpHGD2nmTOvPmDfrt0BVKRn2bE4yu\nl56w0vr/O4flESbLHb38w3Lsez6Am7LxgKHUGDwKhnmBppBHkI6i4Ad3oQKBgAIZ\nPS/wkvnvseHVkDPqJWYZLV0+cXdPK/J7IBjqMGoZLtV1Nu51UMhWkFkNdNsksGIw\ntf7PBheuEbqd7WTpQ7ZJTLqvajtVsYOu1i3NALSabm4zOICfXfPfocNQsQ5RA0uD\nfhPRzYiWIZ2ZVFnT9jEQPHQxWS+/OKBfcI5Cdtt9AoGBAJbxpJDasoOBHLhVzwfj\nGqKDDStVAv7gG43QLhdLCIDxGaurxOao71pXS+tF4WYhF5v0VtU2cRurAosGEaGn\n7dUuQ/ygUUCfB4sUPA7CXYnlEhjG3tziY4ge8IMuCdy9fGeoHjdkL4VNZiOQR0zr\n+4p+F8DG+CqQTSF1eYMwEqlR\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-vanb2@water-level-indicator-a555e.iam.gserviceaccount.com",
+  "client_id": "116964007449141416749",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-vanb2%40water-level-indicator-a555e.iam.gserviceaccount.com"
+}
