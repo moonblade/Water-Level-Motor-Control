@@ -4,6 +4,7 @@ const client = require('prom-client');
 const config = require("./config/config");
 
 const level = new client.Gauge({ name: 'waterlevel', help: 'water level at current time' });
+const measureGauge = new client.Gauge({ name: 'measurement', help: 'raw measurement at current time' });
 
 let previousTimestamp;
 const handleRead = (data) => {
@@ -17,6 +18,7 @@ const handleRead = (data) => {
     previousTimestamp = timestamp;
     console.log("Last water level: " + percentage + " at: " + (new Date(timestamp)));
     level.set(percentage);
+    measureGauge.set(measurement);
   }
 }
 
