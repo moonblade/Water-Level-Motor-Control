@@ -15,7 +15,7 @@ const handleRead = (data) => {
 
   if (previousTimestamp != timestamp) {
     previousTimestamp = timestamp;
-    debug("Last water level: " + percentage + " at: " + (new Date(timestamp)));
+    // debug("Last water level: " + percentage + " at: " + (new Date(timestamp)));
     level.set(percentage);
     measureGauge.set(measurement);
   }
