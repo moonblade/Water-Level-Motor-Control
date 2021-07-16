@@ -3,14 +3,16 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "startDev": "nodemon app.js",
-    "start": "pm2 start app.js && pm2 log app.js"
+    "startDev": "ENV=dev DEBUG=water* nodemon app.js",
+    "start": "DEBUG=water* pm2 start app.js && pm2 log app.js"
   },
   "repository": "git@github.com:moonblade/Water-Level-Motor-Control.git",
   "author": "moonblade <moonblade168@gmail.com>",
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "axios": "^0.21.1",
+    "debug": "^4.3.2",
     "express": "^4.17.1",
     "express-prom-bundle": "^6.3.6",
     "firebase-admin": "^9.10.0",

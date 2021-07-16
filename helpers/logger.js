@@ -1,7 +1,7 @@
 const cron = require('node-cron');
-const admin = require("firebase-admin");
 const client = require('prom-client');
-const config = require("./config/config");
+const config = require("../config/config");
+const debug = require("debug")("water-logger")
 
 const level = new client.Gauge({ name: 'waterlevel', help: 'water level at current time' });
 const measureGauge = new client.Gauge({ name: 'measurement', help: 'raw measurement at current time' });
@@ -16,25 +16,28 @@ const handleRead = (data) => {
 
   if (previousTimestamp != timestamp) {
     previousTimestamp = timestamp;
-    console.log("Last water level: " + percentage + " at: " + (new Date(timestamp)));
+    debug("Last water level: " + percentage + " at: " + (new Date(timestamp)));
     level.set(percentage);
     measureGauge.set(measurement);
   }
 }
 
-const setupCron = () => {
-  admin.initializeApp({
-    credential: admin.credential.cert(config.serviceAccount),
-    databaseURL: config.databaseURL
-  });
-  
-  const db = admin.database().ref()
-  
-  cron.schedule("* * * * *", () => {
+const bootstrap = (db) => {
+ const read = () => {
     db.once("value", (snapshot) => {
       handleRead(snapshot.val());
-    })
-  });
+    });
+  }
+  
+
+  if (config.env == 'dev') {
+    read();
+  } else {
+    cron.schedule("* * * * *", () => {
+      read();
+    });
+  }
 }
-setupCron();
+
+exports.bootstrap = bootstrap;
 

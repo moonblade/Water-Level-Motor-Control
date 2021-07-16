@@ -1,8 +1,9 @@
 const promBundle = require('express-prom-bundle');
 const client = require('prom-client');
 const express = require('express');
+const helpers = require("./helpers");
 
-require("./cronHelper");
+helpers.bootstrap();
 
 const app = express();
 
