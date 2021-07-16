@@ -21,14 +21,14 @@ const setMotorState = (db, current) => {
 const controlMotor = (db, measurements, data) => {
   debug(measurements, data);
 
-  if (data.motorController.state.current == state.on && data.motorController.state.time < (new Date().getTime() - config.turnMotorOffMins * 60000)) {
-    debug(`Motor on for more than ${config.turnMotorOffMins} minutes, Turning it off`);
+  if (data.motorController.state.current == state.on && data.motorController.state.time < (new Date().getTime() - data.settings.turnMotorOffMins * 60000)) {
+    debug(`Motor on for more than ${data.settings.turnMotorOffMins} minutes, Turning it off`);
     setMotorState(db, state.off);
-  } else if (measurements.some(x => x > config.motorOffThreshold)) {
-    debug(`Water level > ${config.motorOffThreshold}, Turning it off`);
+  } else if (measurements.some(x => x > data.settings.motorOffThreshold)) {
+    debug(`Water level > ${data.settings.motorOffThreshold}, Turning it off`);
     setMotorState(db, state.off);
-  } else if (measurements.every(x => x < config.motorOnThreshold)) {
-    debug(`Water level < ${config.motorOnThreshold}, Turning in ON`);
+  } else if (measurements.every(x => x < data.settings.motorOnThreshold)) {
+    debug(`Water level < ${data.settings.motorOnThreshold}, Turning in ON`);
     setMotorState(db, state.on);
   }
 }
