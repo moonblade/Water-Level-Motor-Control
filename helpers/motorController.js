@@ -1,29 +1,36 @@
 const cron = require('node-cron');
-const client = require('prom-client');
 const config = require("../config/config");
 const api = require("./api");
 const debug = require("debug")("water-motorHelper");
 
-const motorState = new client.Gauge({ name: 'motorstate', help: 'current state of motor' });
-
-let previousTimestamp;
-const handleMotorAction = (data) => {
-  const { measurement, timestamp } = data.waterlevel;
-  const { anomalyDistanceLimit, autoUpdateMinMax, brightness, printMode, maximumValue, minimumValue } = data.settings;
-
-  let percentage = (100 - (((measurement - minimumValue) * 100) / Math.max((maximumValue - minimumValue), 1)));
-  percentage = Math.round(Math.max(Math.min(100, percentage), 0));
-
-  if (previousTimestamp != timestamp) {
-    previousTimestamp = timestamp;
-    console.log("Last water level: " + percentage + " at: " + (new Date(timestamp)));
-    level.set(percentage);
-    measureGauge.set(measurement);
-  }
+const state = {
+  on: "on",
+  off: "off"
 }
 
-const controlMotor = (measurements, data) => {
+const setMotorState = (db, current) => {
+  if (current == state.on) {
+    // TOOD: If in between certain times ignore the request, if turned off in db, ignore the request
+  }
+  db.child("motorController/command").set({
+    current,
+    timestamp: new Date().getTime()
+  });
+}
+
+const controlMotor = (db, measurements, data) => {
   debug(measurements, data);
+
+  if (data.motorController.state.current == state.on && data.motorController.state.time < (new Date().getTime() - config.turnMotorOffMins * 60000)) {
+    debug(`Motor on for more than ${config.turnMotorOffMins} minutes, Turning it off`);
+    setMotorState(db, state.off);
+  } else if (measurements.some(x => x > config.motorOffThreshold)) {
+    debug(`Water level > ${config.motorOffThreshold}, Turning it off`);
+    setMotorState(db, state.off);
+  } else if (measurements.every(x => x < config.motorOnThreshold)) {
+    debug(`Water level < ${config.motorOnThreshold}, Turning in ON`);
+    setMotorState(db, state.on);
+  }
 }
 
 const bootstrap = (db) => {
@@ -45,7 +52,7 @@ const bootstrap = (db) => {
        debug("values", data.data.result[0].values);
        measurements = data.data.result[0].values.map(x => parseInt(x[1]));
        getSettings().then(data => {
-         controlMotor(measurements, data);
+         controlMotor(db, measurements, data);
        });
        debug(measurements)
      } else {

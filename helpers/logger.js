@@ -1,10 +1,9 @@
-const cron = require('node-cron');
 const client = require('prom-client');
-const config = require("../config/config");
 const debug = require("debug")("water-logger")
 
 const level = new client.Gauge({ name: 'waterlevel', help: 'water level at current time' });
 const measureGauge = new client.Gauge({ name: 'measurement', help: 'raw measurement at current time' });
+const motorState = new client.Gauge({ name: 'motorstate', help: 'current state of motor' });
 
 let previousTimestamp;
 const handleRead = (data) => {
@@ -20,23 +19,13 @@ const handleRead = (data) => {
     level.set(percentage);
     measureGauge.set(measurement);
   }
+  motorState.set(data.motorController.state.current == "on" ? 1 : 0)
 }
 
 const bootstrap = (db) => {
- const read = () => {
-    db.once("value", (snapshot) => {
-      handleRead(snapshot.val());
-    });
-  }
-  
-
-  if (config.env == 'dev') {
-    read();
-  } else {
-    cron.schedule("* * * * *", () => {
-      read();
-    });
-  }
+  db.on("value", (snapshot) => {
+    handleRead(snapshot.val());
+  });
 }
 
 exports.bootstrap = bootstrap;
