@@ -37,7 +37,7 @@ const getLastMeasurements = async () => {
    const start = new Date(end.getTime() - 5 * 60000);
    return api.get(`/query_range?query=waterlevel&start=${start.toISOString()}&end=${end.toISOString()}&step=1m`).then(result=> {
      const { data } = result;
-     if (data.status == 'success' && data?.data?.result) {
+     if (data.status == 'success' && data.data && data.data.result) {
        // debug("result", data.data.result);
        // debug("values", data.data.result[0].values);
        measurements = data.data.result[0].values.map(x => parseInt(x[1]));
