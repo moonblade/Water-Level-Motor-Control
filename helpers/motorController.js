@@ -1,4 +1,3 @@
-const cron = require('node-cron');
 const config = require("../config/config");
 const api = require("./api");
 const debug = require("debug")("water-motorHelper");
@@ -8,12 +7,14 @@ const state = {
   off: "off"
 }
 
-const setMotorState = (db, current) => {
-  if (current == state.on) {
-    // TOOD: If in between certain times ignore the request, if turned off in db, ignore the request
+const setMotorState = (db, command) => {
+  debug(`Turning motor ${command}`);
+  if (command == state.on) {
+    // TODO: If in between certain times ignore the request, if turned off in db, ignore the request
+    // TODO: If turned on, set timer for 20 mins to turn off, in case other one doesn't work
   }
   db.child("motorController/command").set({
-    current,
+    current: command,
     timestamp: new Date().getTime()
   });
 }
@@ -31,42 +32,31 @@ const controlMotor = (db, measurements, data) => {
   }
 }
 
-const bootstrap = (db) => {
- const getSettings = () => {
-   return new Promise((res) => {
-     db.once("value", (snapshot) => {
-       res(snapshot.val());
-     });
-   })
-  }
-
- const read = () => {
+const getLastMeasurements = async () => {
    const end = new Date();
    const start = new Date(end.getTime() - 5 * 60000);
-   api.get(`/query_range?query=waterlevel&start=${start.toISOString()}&end=${end.toISOString()}&step=1m`).then(result=> {
+   return api.get(`/query_range?query=waterlevel&start=${start.toISOString()}&end=${end.toISOString()}&step=1m`).then(result=> {
      const { data } = result;
      if (data.status == 'success' && data?.data?.result) {
        // debug("result", data.data.result);
        // debug("values", data.data.result[0].values);
        measurements = data.data.result[0].values.map(x => parseInt(x[1]));
-       getSettings().then(data => {
-         controlMotor(db, measurements, data);
-       });
+       return measurements;
      } else {
        debug("failure", data);
+       return [];
      }
    }).catch(error => {
      debug("error", error)
    });
-  }
-  
-  if (config.env == 'dev') {
-    read();
-  } else {
-    cron.schedule("* * * * *", () => {
-      read();
-    });
-  }
+}
+
+const bootstrap = (db) => {
+  db.on("value", async (snapshot) => {
+    const data = snapshot.val();
+    const measurements = await getLastMeasurements();
+    controlMotor(db, measurements, data);
+  });
 }
 
 exports.bootstrap = bootstrap;
