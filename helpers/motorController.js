@@ -80,7 +80,6 @@ const setPercent = (measurements, data) => {
   const measurement = average(measurements);
   const { minimumValue, maximumValue } = data.settings;
   const percentage = getPercentage(measurement, minimumValue, maximumValue);
-  console.log(measurement, minimumValue, maximumValue)
   db.child("waterlevel/percentage").set(percentage);
 }
 
