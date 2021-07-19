@@ -7,11 +7,8 @@ const motorState = new client.Gauge({ name: 'motorstate', help: 'current state o
 
 let previousTimestamp;
 const handleRead = (data) => {
-  const { measurement, timestamp } = data.waterlevel;
+  const { measurement, timestamp, percentage } = data.waterlevel;
   const { anomalyDistanceLimit, autoUpdateMinMax, brightness, printMode, maximumValue, minimumValue } = data.settings;
-
-  let percentage = (100 - (((measurement - minimumValue) * 100) / Math.max((maximumValue - minimumValue), 1)));
-  percentage = Math.round(Math.max(Math.min(100, percentage), 0));
 
   if (previousTimestamp != timestamp) {
     previousTimestamp = timestamp;
