@@ -78,7 +78,7 @@ const controlMotor = (percent, data) => {
   } else if (data.motorController.state.current == state.on && percent > data.settings.motorOffThreshold) {
     debug(`Water level > ${data.settings.motorOffThreshold}, Turning it off`);
     setMotorState(state.off, data);
-  } else if (data.motorController.state.current == state.off && percent < data.settings.motorOnThreshold) {
+  } else if (data.motorController.state.current == state.off && percent < data.settings.motorOnThreshold && data.motorController.command.timestamp < (new Date().getTime() - data.settings.waitBetweenCommands * 60000)) {
     debug(`Water level < ${data.settings.motorOnThreshold}, Turning in ON`);
     setMotorState(state.on, data);
   }
@@ -111,6 +111,22 @@ const setPercent = (measurements, data) => {
   return percentage;
 }
 
+const setDbValue = (key, value) => {
+  try {
+    intValue = parseInt(value)
+    value = intValue
+  } catch (error) {
+    debug("not int value");
+  }
+  db.child(key).set(value);
+}
+
+const getDbValue = async (key) => {
+  debug("Getting db value for key " + key);
+  const value = await db.child(key).once("value");
+  return value.val();
+}
+
 const bootstrap = (_db) => {
   db = _db;
   db.child("waterlevel/measurement").on("value", async () => {
@@ -125,3 +141,5 @@ const bootstrap = (_db) => {
 exports.bootstrap = bootstrap;
 exports.setMotorState = setMotorState;
 exports.setAutoControl = setAutoControl;
+exports.setDbValue = setDbValue;
+exports.getDbValue = getDbValue;

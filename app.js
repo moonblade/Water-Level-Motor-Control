@@ -3,10 +3,11 @@ const client = require('prom-client');
 const cors = require("cors");
 const express = require('express');
 const bodyParser = require("body-parser");
+const debug = require("debug")("waterlevel-app.js");
 const path = require("path");
 const helpers = require("./helpers");
 const { getAutomaticControl } = require("./helpers/logger");
-const { setAutoControl, setMotorState } = require("./helpers/motorController");
+const { setAutoControl, setMotorState, setDbValue, getDbValue } = require("./helpers/motorController");
 
 helpers.bootstrap();
 
@@ -35,6 +36,15 @@ app.post("/automaticControl", (req, res) => {
 app.post("/setMotorState", (req, res) => {
   setMotorState(req.query.command == "on" ? "on" : "off");
   res.status(200).end();
+});
+app.post("/setDbValue", (req, res) => {
+  setDbValue(req.query.key, req.query.value);
+  res.status(200).end();
+});
+
+app.post("/getDbValue", async (req, res) => {
+  const value = await getDbValue(req.query.key);
+  return res.json({ value });
 });
 
 app.use('/', express.static(path.join(__dirname, "public")));

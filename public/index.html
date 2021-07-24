@@ -18,16 +18,49 @@
 
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="autoControl">
-          <label class="form-check-label" for="flexSwitchCheckDefault">Automate Motor Control</label>
+          <label class="form-check-label" for="flexSwitchCheckDefault">Auto turn on when low</label>
         </div>
 
-        <div class="col-6 align-self-center">
-          <button id="on" type="button" class="btn btn-primary">ON</button>
+        <br>
+        <br>
+
+        <div class="row">
+          <div class="col align-self-center">
+            <h3> Motor </h3> 
+          </div>
+          <div class="col align-self-center">
+            <button id="on" type="button" class="btn btn-primary">ON</button>
+          </div>
+
+          <div class="col align-self-center">
+            <button id="off" type="button" class="btn btn-light">OFF</button>
+          </div>
         </div>
 
-        <div class="col-6 align-self-center">
-          <button id="off" type="button" class="btn btn-light">OFF</button>
-        </div>
+        <br>
+        <br>
+        <br>
+
+            <h3> Other settings </h3> 
+        <!-- <div class="row"> -->
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Motor off percentage<span>
+            <input type="text" id="motorOffThreshold" class="form-control" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Motor on percentage<span>
+            <input type="text" id="motorOnThreshold" class="form-control"  aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Hold on/off buttons for seconds<span>
+            <input type="text" id="switchingDelaySec" class="form-control"  aria-describedby="basic-addon1">
+          </div>
+          <div class="col align-self-center">
+ 
+          <div class="col align-self-center">
+            <button id="save" type="button" class="btn btn-primary">SAVE</button>
+          </div>
+        <!-- </div> -->
     </div>
 
 
