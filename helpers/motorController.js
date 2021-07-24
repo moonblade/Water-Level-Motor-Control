@@ -61,7 +61,7 @@ const setMotorState = (command, data) => {
     if (data.settings.automaticControl != 1) {
       return;
     }
-    if (isBetweenTimes("17:00:00", "20:00:00")) {
+    if (isBetweenTimes(data.settings.offtime.from, data.settings.offtime.to)) {
       return;
     }
   }
