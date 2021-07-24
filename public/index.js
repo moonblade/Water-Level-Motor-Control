@@ -1,5 +1,5 @@
 
-const baseUrl = "http://localhost:40002/"
+const baseUrl = "http://192.168.29.28:40002/"
 getAutomaticControl = () => {
   fetch(baseUrl + "automaticControl").then(response => {
     return response.json();
