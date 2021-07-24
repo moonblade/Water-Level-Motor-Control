@@ -49,6 +49,11 @@ const idToKey = {
   "motorOnThreshold": "settings/motorOnThreshold",
   "motorOffThreshold": "settings/motorOffThreshold",
   "switchingDelaySec": "settings/switchingDelaySec",
+  "turnMotorOffMins": "settings/turnMotorOffMins",
+  "waitBetweenCommands": "settings/waitBetweenCommands",
+  "waitOnStartMin": "settings/waitOnStartMin",
+  "offtimeFrom": "settings/offtimeFrom",
+  "offtimeTo": "settings/offtimeTo",
 }
 
 save = () => {

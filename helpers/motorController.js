@@ -61,7 +61,7 @@ const setMotorState = (command, data) => {
     if (data.settings.automaticControl != 1) {
       return;
     }
-    if (isBetweenTimes(data.settings.offtime.from, data.settings.offtime.to)) {
+    if (isBetweenTimes(data.settings.offtimeFrom, data.settings.offtimeTo)) {
       return;
     }
   }
@@ -84,7 +84,7 @@ const controlMotor = (percent, data) => {
   }
 }
 
-const getLastMeasurements = async () => {
+const getLastMeasurements = async (oldData) => {
    const end = new Date();
    const start = new Date(end.getTime() - 4 * 60000);
    return api.get(`/query_range?query=measurement&start=${start.toISOString()}&end=${end.toISOString()}&step=15s`).then(result=> {
@@ -92,7 +92,7 @@ const getLastMeasurements = async () => {
      if (data.status == 'success' && data.data && data.data.result) {
        // debug("result", data.data.result);
        // debug("values", data.data.result[0].values);
-       measurements = data.data.result[0].values.map(x => parseInt(x[1]));
+       measurements = data.data.result[0] && data.data.result[0].values.map(x => parseInt(x[1])) || [oldData.waterlevel.measurement];
        return measurements;
      } else {
        debug("failure", data);
@@ -113,8 +113,10 @@ const setPercent = (measurements, data) => {
 
 const setDbValue = (key, value) => {
   try {
-    intValue = parseInt(value)
-    value = intValue
+    if (typeof value == "string" && value.indexOf(":") == -1) {
+      intValue = parseInt(value)
+      value = intValue
+    }
   } catch (error) {
     debug("not int value");
   }
@@ -132,7 +134,7 @@ const bootstrap = (_db) => {
   db.child("waterlevel/measurement").on("value", async () => {
     const snapshot = await db.once("value")
     const data = snapshot.val();
-    const measurements = removeOutliers(await getLastMeasurements());
+    const measurements = removeOutliers(await getLastMeasurements(data));
     percent = setPercent(measurements, data);
     controlMotor(percent, data);
   });
