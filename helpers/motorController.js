@@ -93,6 +93,7 @@ const getLastMeasurements = async (oldData) => {
        // debug("result", data.data.result);
        // debug("values", data.data.result[0].values);
        measurements = data.data.result[0] && data.data.result[0].values.map(x => parseInt(x[1])) || [oldData.waterlevel.measurement];
+       // debug("measurements", measurements);
        return measurements;
      } else {
        debug("failure", data);
@@ -107,6 +108,7 @@ const setPercent = (measurements, data) => {
   const measurement = average(measurements);
   const { minimumValue, maximumValue } = data.settings;
   const percentage = getPercentage(measurement, minimumValue, maximumValue);
+  debug("Setting percentage ", percentage);
   db.child("waterlevel/percentage").set(percentage);
   return percentage;
 }
