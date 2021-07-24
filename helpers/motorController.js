@@ -71,14 +71,14 @@ const setMotorState = (command, data) => {
   });
 }
 
-const controlMotor = (measurements, data) => {
+const controlMotor = (percent, data) => {
   if (data.motorController.state.current == state.on && data.motorController.command.timestamp < (new Date().getTime() - data.settings.turnMotorOffMins * 60000)) {
     debug(`Motor on for more than ${data.settings.turnMotorOffMins} minutes, Turning it off`);
     setMotorState(state.off, data);
-  } else if (data.motorController.state.current == state.on && measurements.some(x => x > data.settings.motorOffThreshold)) {
+  } else if (data.motorController.state.current == state.on && percent > data.settings.motorOffThreshold) {
     debug(`Water level > ${data.settings.motorOffThreshold}, Turning it off`);
     setMotorState(state.off, data);
-  } else if (data.motorController.state.current == state.off && measurements.every(x => x < data.settings.motorOnThreshold)) {
+  } else if (data.motorController.state.current == state.off && percent < data.settings.motorOnThreshold) {
     debug(`Water level < ${data.settings.motorOnThreshold}, Turning in ON`);
     setMotorState(state.on, data);
   }
@@ -108,6 +108,7 @@ const setPercent = (measurements, data) => {
   const { minimumValue, maximumValue } = data.settings;
   const percentage = getPercentage(measurement, minimumValue, maximumValue);
   db.child("waterlevel/percentage").set(percentage);
+  return percentage;
 }
 
 const bootstrap = (_db) => {
@@ -116,8 +117,8 @@ const bootstrap = (_db) => {
     const snapshot = await db.once("value")
     const data = snapshot.val();
     const measurements = removeOutliers(await getLastMeasurements());
-    setPercent(measurements, data);
-    controlMotor(measurements, data);
+    percent = setPercent(measurements, data);
+    controlMotor(percent, data);
   });
 }
 
