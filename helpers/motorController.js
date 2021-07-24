@@ -3,6 +3,24 @@ const api = require("./api");
 const debug = require("debug")("water-motorHelper");
 let db;
 
+const isBetweenTimes = (startTime, endTime) => {
+// var endTime = '22:30:00';
+
+  currentDate = new Date()   
+  
+  startDate = new Date(currentDate.getTime());
+  startDate.setHours(startTime.split(":")[0]);
+  startDate.setMinutes(startTime.split(":")[1]);
+  startDate.setSeconds(startTime.split(":")[2]);
+  
+  endDate = new Date(currentDate.getTime());
+  endDate.setHours(endTime.split(":")[0]);
+  endDate.setMinutes(endTime.split(":")[1]);
+  endDate.setSeconds(endTime.split(":")[2]);
+  
+  return startDate < currentDate && endDate > currentDate
+}
+
 const average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
 function stdDeviation(arr){
   mean = average(arr);
@@ -32,11 +50,20 @@ const state = {
   off: "off"
 }
 
-const setMotorState = (command) => {
+const setAutoControl = (value) => {
+  debug("Setting automatic control to value " + value);
+  db.child("settings/automaticControl").set(value);
+}
+
+const setMotorState = (command, data) => {
   debug(`Turning motor ${command}`);
-  if (command == state.on) {
-    // TODO: If in between certain times ignore the request, if turned off in db, ignore the request
-    // TODO: If turned on, set timer for 20 mins to turn off, in case other one doesn't work
+  if (command == state.on && data) {
+    if (data.settings.automaticControl != 1) {
+      return;
+    }
+    if (isBetweenTimes("17:00:00", "20:00:00")) {
+      return;
+    }
   }
   db.child("motorController/command").set({
     current: command,
@@ -47,19 +74,19 @@ const setMotorState = (command) => {
 const controlMotor = (measurements, data) => {
   if (data.motorController.state.current == state.on && data.motorController.command.timestamp < (new Date().getTime() - data.settings.turnMotorOffMins * 60000)) {
     debug(`Motor on for more than ${data.settings.turnMotorOffMins} minutes, Turning it off`);
-    setMotorState(state.off);
+    setMotorState(state.off, data);
   } else if (data.motorController.state.current == state.on && measurements.some(x => x > data.settings.motorOffThreshold)) {
     debug(`Water level > ${data.settings.motorOffThreshold}, Turning it off`);
-    setMotorState(state.off);
+    setMotorState(state.off, data);
   } else if (data.motorController.state.current == state.off && measurements.every(x => x < data.settings.motorOnThreshold)) {
     debug(`Water level < ${data.settings.motorOnThreshold}, Turning in ON`);
-    setMotorState(state.on);
+    setMotorState(state.on, data);
   }
 }
 
 const getLastMeasurements = async () => {
    const end = new Date();
-   const start = new Date(end.getTime() - 5 * 60000);
+   const start = new Date(end.getTime() - 4 * 60000);
    return api.get(`/query_range?query=measurement&start=${start.toISOString()}&end=${end.toISOString()}&step=15s`).then(result=> {
      const { data } = result;
      if (data.status == 'success' && data.data && data.data.result) {
@@ -95,3 +122,5 @@ const bootstrap = (_db) => {
 }
 
 exports.bootstrap = bootstrap;
+exports.setMotorState = setMotorState;
+exports.setAutoControl = setAutoControl;

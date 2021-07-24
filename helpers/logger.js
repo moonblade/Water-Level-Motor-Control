@@ -1,6 +1,8 @@
 const client = require('prom-client');
 const debug = require("debug")("water-logger")
 
+let automaticControl = 1;
+
 const level = new client.Gauge({ name: 'waterlevel', help: 'water level at current time' });
 const measureGauge = new client.Gauge({ name: 'measurement', help: 'raw measurement at current time' });
 const motorState = new client.Gauge({ name: 'motorstate', help: 'current state of motor' });
@@ -17,6 +19,7 @@ const handleRead = (data) => {
     measureGauge.set(measurement);
   }
   motorState.set(data.motorController.state.current == "on" ? 1 : 0)
+  automaticControl = data.settings.automaticControl;
 }
 
 const bootstrap = (db) => {
@@ -26,4 +29,5 @@ const bootstrap = (db) => {
 }
 
 exports.bootstrap = bootstrap;
+exports.getAutomaticControl = () => automaticControl;
 
