@@ -71,14 +71,14 @@ const setMotorState = (command, data) => {
   });
 }
 
-const controlMotor = (percent, data) => {
+const controlMotor = (percentages, data) => {
   if (data.motorController.state.current == state.on && data.motorController.command.timestamp < (new Date().getTime() - data.settings.turnMotorOffMins * 60000)) {
     debug(`Motor on for more than ${data.settings.turnMotorOffMins} minutes, Turning it off`);
     setMotorState(state.off, data);
-  } else if (data.motorController.state.current == state.on && percent > data.settings.motorOffThreshold) {
+  } else if (data.motorController.state.current == state.on && percentages.some(x => x > data.settings.motorOffThreshold)) {
     debug(`Water level > ${data.settings.motorOffThreshold}, Turning it off`);
     setMotorState(state.off, data);
-  } else if (data.motorController.state.current == state.off && percent < data.settings.motorOnThreshold && data.motorController.command.timestamp < (new Date().getTime() - data.settings.waitBetweenCommands * 60000)) {
+  } else if (data.motorController.state.current == state.off && percentages.every(x => x < data.settings.motorOnThreshold) && data.motorController.command.timestamp < (new Date().getTime() - data.settings.waitBetweenCommands * 60000)) {
     debug(`Water level < ${data.settings.motorOnThreshold}, Turning in ON`);
     setMotorState(state.on, data);
   }
@@ -104,13 +104,13 @@ const getLastMeasurements = async (oldData) => {
    });
 }
 
-const setPercent = (measurements, data) => {
+const setPercent = (rawMeasurements, measurements, data) => {
   const measurement = average(measurements);
   const { minimumValue, maximumValue } = data.settings;
   const percentage = getPercentage(measurement, minimumValue, maximumValue);
-  debug("Setting percentage ", percentage);
+  // debug("Setting percentage ", percentage);
   db.child("waterlevel/percentage").set(percentage);
-  return percentage;
+  return rawMeasurements.map((measurement) => getPercentage(measurement, minimumValue, maximumValue));
 }
 
 const setDbValue = (key, value) => {
@@ -136,9 +136,10 @@ const bootstrap = (_db) => {
   db.child("waterlevel/measurement").on("value", async () => {
     const snapshot = await db.once("value")
     const data = snapshot.val();
-    const measurements = removeOutliers(await getLastMeasurements(data));
-    percent = setPercent(measurements, data);
-    controlMotor(percent, data);
+    const rawMeasurements = await getLastMeasurements(data);
+    const measurements = removeOutliers(rawMeasurements);
+    percentages = setPercent(rawMeasurements, measurements, data);
+    controlMotor(percentages, data);
   });
 }
 
