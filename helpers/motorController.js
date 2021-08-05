@@ -1,7 +1,9 @@
 const config = require("../config/config");
 const api = require("./api");
-const debug = require("debug")("water-motorHelper");
+// const debug = require("debug")("water-motorHelper");
 let db;
+
+const debug = (...params) => console.log(...params);
 
 const isBetweenTimes = (startTime, endTime) => {
 // var endTime = '22:30:00';

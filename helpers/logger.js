@@ -1,5 +1,7 @@
 const client = require('prom-client');
-const debug = require("debug")("water-logger")
+// const debug = require("debug")("water-logger")
+
+const debug = (...params) => console.log(...params);
 
 let automaticControl = 1;
 
@@ -14,7 +16,7 @@ const handleRead = (data) => {
 
   if (previousTimestamp != timestamp) {
     previousTimestamp = timestamp;
-    // debug("Last water level: " + percentage + " at: " + (new Date(timestamp)));
+    debug("Last water level: " + percentage + " at: " + (new Date(timestamp)));
     level.set(percentage);
     measureGauge.set(measurement);
   }

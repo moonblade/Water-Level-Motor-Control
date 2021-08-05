@@ -3,7 +3,6 @@ const client = require('prom-client');
 const cors = require("cors");
 const express = require('express');
 const bodyParser = require("body-parser");
-const debug = require("debug")("waterlevel-app.js");
 const path = require("path");
 const helpers = require("./helpers");
 const { getAutomaticControl } = require("./helpers/logger");
