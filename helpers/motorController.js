@@ -59,11 +59,11 @@ const setAutoControl = (value) => {
 
 const setMotorState = (command, data) => {
   debug(`Turning motor ${command}`);
-  if (command == state.on && data) {
+  if (data) {
     if (data.settings.automaticControl != 1) {
       return;
     }
-    if (isBetweenTimes(data.settings.offtimeFrom, data.settings.offtimeTo)) {
+    if (command == state.on && isBetweenTimes(data.settings.offtimeFrom, data.settings.offtimeTo)) {
       return;
     }
   }
