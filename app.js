@@ -8,7 +8,7 @@ const helpers = require("./helpers");
 const { getAutomaticControl } = require("./helpers/logger");
 const { setAutoControl, setMotorState, setDbValue, getDbValue } = require("./helpers/motorController");
 
-helpers.bootstrap();
+setTimeout(helpers.bootstrap, 5 * 60 * 1000)
 
 const app = express();
 
