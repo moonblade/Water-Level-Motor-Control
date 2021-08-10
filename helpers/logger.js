@@ -18,6 +18,7 @@ const handleRead = (data) => {
     previousTimestamp = timestamp;
     debug("Last water level: " + percentage + " at: " + (new Date(timestamp)));
     level.set(percentage);
+    debug("Last measurement: " + measurement + " at: " + (new Date(timestamp)));
     measureGauge.set(measurement);
   }
   motorState.set(data.motorController.state.current == "on" ? 1 : 0)

@@ -95,9 +95,9 @@ const getLastMeasurements = async (oldData) => {
      const { data } = result;
      if (data.status == 'success' && data.data && data.data.result) {
        // debug("result", data.data.result);
-       // debug("values", data.data.result[0].values);
+       debug("values", data.data.result[0].values);
        measurements = data.data.result[0] && data.data.result[0].values.map(x => parseInt(x[1])) || [oldData.waterlevel.measurement];
-       // debug("measurements", measurements);
+       debug("measurements", measurements);
        return measurements;
      } else {
        debug("failure", data);
