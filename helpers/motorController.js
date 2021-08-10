@@ -112,6 +112,7 @@ const setPercent = (rawMeasurements, measurements, data) => {
   const percentage = getPercentage(measurement, minimumValue, maximumValue);
   debug("measurement", measurement)
   debug("measurements", measurements)
+  debug("rawMeasurements", rawMeasurements)
   debug("percentage", percentage)
   // debug("Setting percentage ", percentage);
   db.child("waterlevel/percentage").set(percentage);
