@@ -88,7 +88,7 @@ const controlMotor = (percentages, data) => {
 
 const getLastMeasurements = async (oldData) => {
    const end = new Date();
-   const start = new Date(end.getTime() - 4 * 60000);
+   const start = new Date(end.getTime() - 5 * 60000);
    return api.get(`/query_range?query=measurement&start=${start.toISOString()}&end=${end.toISOString()}&step=15s`).then(result=> {
      const { data } = result;
      if (data.status == 'success' && data.data && data.data.result) {
@@ -110,6 +110,9 @@ const setPercent = (rawMeasurements, measurements, data) => {
   const measurement = average(measurements);
   const { minimumValue, maximumValue } = data.settings;
   const percentage = getPercentage(measurement, minimumValue, maximumValue);
+  debug("measurement", measurement)
+  debug("measurements", measurements)
+  debug("percentage", percentage)
   // debug("Setting percentage ", percentage);
   db.child("waterlevel/percentage").set(percentage);
   db.child("waterlevel/percentageUpdatedAt").set(new Date().getTime());
