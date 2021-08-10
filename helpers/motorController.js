@@ -89,7 +89,9 @@ const controlMotor = (percentages, data) => {
 const getLastMeasurements = async (oldData) => {
    const end = new Date();
    const start = new Date(end.getTime() - 5 * 60000);
-   return api.get(`/query_range?query=measurement&start=${start.toISOString()}&end=${end.toISOString()}&step=15s`).then(result=> {
+   const query = `/query_range?query=measurement&start=${start.toISOString()}&end=${end.toISOString()}&step=15s`;
+   debug("query", query);
+   return api.get(query).then(result=> {
      const { data } = result;
      if (data.status == 'success' && data.data && data.data.result) {
        // debug("result", data.data.result);
