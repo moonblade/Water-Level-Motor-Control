@@ -8,23 +8,23 @@
 /* #define WIFI_PASSWORD "code||die" */
 #define WIFI_PASSWORD "abduljabbar"
 
-#define ONONE D5
-#define ONTWO D6
+#define ON D5
 #define OFF D7
+#define CURR D8
 
 
 //Define Firebase Data objects
 FirebaseData fd;
 double timestamp;
 int waitOnStartMin, switchingDelaySec;
+int inputVal;
 String currentCommand, command;
 
 void setup() {
-  pinMode(ONONE, OUTPUT);
-  pinMode(ONTWO, OUTPUT);
+  pinMode(ON, OUTPUT);
   pinMode(OFF, OUTPUT);
-  digitalWrite(ONONE, HIGH);
-  digitalWrite(ONTWO, HIGH);
+  pinMode(CURR, INPUT);
+  digitalWrite(ON, HIGH);
   digitalWrite(OFF, HIGH);
  
   // put your setup code here, to run once:
@@ -39,8 +39,7 @@ void setup() {
     Serial.print(".");
   }
 
-  pinMode(ONONE, OUTPUT);
-  pinMode(ONTWO, OUTPUT);
+  pinMode(ON, OUTPUT);
   pinMode(OFF, OUTPUT);
 
   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
@@ -76,12 +75,17 @@ void motorOff() {
 
 
 void loop() {
+  inputVal = digitalRead(CURR);
+  if (inputVal == 1) {
+    currentCommand = "on";
+  } else {
+    currentCommand = "off";
+  }
   Firebase.getString(fd, "/motorController/command/current");
   command = fd.stringData();
 
   if (command != currentCommand) {
     Serial.println("Turning motor " + command);
-    currentCommand = command;
     if (currentCommand == "on") {
       motorOn();
     } else {
