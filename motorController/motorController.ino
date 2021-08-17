@@ -56,12 +56,10 @@ void setup() {
 
 void motorOn() {
   Serial.println("Button on");
-  digitalWrite(ONONE, LOW);
-  digitalWrite(ONTWO, LOW);
+  digitalWrite(ON, LOW);
   delay(switchingDelaySec * 1000);
   Serial.println("Button off");
-  digitalWrite(ONONE, HIGH);
-  digitalWrite(ONTWO, HIGH);
+  digitalWrite(ON, HIGH);
 }
 
 void motorOff() {
