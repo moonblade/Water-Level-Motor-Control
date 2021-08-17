@@ -573,7 +573,7 @@ design rules under a new name.</description>
 <pass name="Default">
 <param name="RoutingGrid" value="50mil"/>
 <param name="AutoGrid" value="1"/>
-<param name="Efforts" value="0"/>
+<param name="Efforts" value="2"/>
 <param name="TopRouterVariant" value="1"/>
 <param name="tpViaShape" value="round"/>
 <param name="PrefDir.1" value="a"/>
@@ -591,7 +591,7 @@ design rules under a new name.</description>
 <param name="PrefDir.13" value="0"/>
 <param name="PrefDir.14" value="0"/>
 <param name="PrefDir.15" value="0"/>
-<param name="PrefDir.16" value="a"/>
+<param name="PrefDir.16" value="0"/>
 <param name="cfVia" value="8"/>
 <param name="cfNonPref" value="5"/>
 <param name="cfChangeDir" value="2"/>
@@ -684,31 +684,31 @@ design rules under a new name.</description>
 <attribute name="TYPE" value=" Side Wire Entry" x="7.62" y="74.93" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="8.89" y="78.83" size="1.778" layer="27" align="bottom-center"/>
 </element>
-<element name="J2" library="Wurth_Connectors_WR-PHD" library_urn="urn:adsk.eagle:library:14804658" package="61300311821" package3d_urn="urn:adsk.eagle:package:14805540/2" value="" x="50.8" y="54.61" smashed="yes" rot="R90">
-<attribute name="DATASHEET-URL" value="https://katalog.we-online.com/em/datasheet/61300311821.pdf" x="50.8" y="54.61" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="GENDER" value="Socket Header" x="50.8" y="54.61" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="IR" value="3A" x="50.8" y="54.61" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="MATES" value="WR-PHD 2.54mm SMT Pin Header/THT Angled Pin Header/THT Pin Header" x="50.8" y="54.61" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="NAME" x="50.5439" y="49.5324" size="0.8128" layer="25" rot="R90" align="bottom-right"/>
-<attribute name="PACKAGING" value="Tray" x="50.8" y="54.61" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="PART-NUMBER" value=" 61300311821 " x="50.8" y="54.61" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="PINS" value=" 3 " x="50.8" y="54.61" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="ROWS" value="Single" x="50.8" y="54.61" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="TYPE" value="Straight" x="50.8" y="54.61" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="VALUE" x="52.2442" y="49.6124" size="0.8128" layer="27" rot="R90" align="bottom-right"/>
+<element name="J2" library="Wurth_Connectors_WR-PHD" library_urn="urn:adsk.eagle:library:14804658" package="61300311821" package3d_urn="urn:adsk.eagle:package:14805540/2" value="" x="49.53" y="43.18" smashed="yes" rot="R270">
+<attribute name="DATASHEET-URL" value="https://katalog.we-online.com/em/datasheet/61300311821.pdf" x="49.53" y="43.18" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="GENDER" value="Socket Header" x="49.53" y="43.18" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="IR" value="3A" x="49.53" y="43.18" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="MATES" value="WR-PHD 2.54mm SMT Pin Header/THT Angled Pin Header/THT Pin Header" x="49.53" y="43.18" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="NAME" x="49.7861" y="48.2576" size="0.8128" layer="25" rot="R270" align="bottom-right"/>
+<attribute name="PACKAGING" value="Tray" x="49.53" y="43.18" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="PART-NUMBER" value=" 61300311821 " x="49.53" y="43.18" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="PINS" value=" 3 " x="49.53" y="43.18" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="ROWS" value="Single" x="49.53" y="43.18" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="TYPE" value="Straight" x="49.53" y="43.18" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="VALUE" x="48.0858" y="48.1776" size="0.8128" layer="27" rot="R270" align="bottom-right"/>
 </element>
-<element name="J1" library="Wurth_Connectors_WR-PHD" library_urn="urn:adsk.eagle:library:14804658" package="61300311821" package3d_urn="urn:adsk.eagle:package:14805540/2" value="" x="50.8" y="19.05" smashed="yes" rot="R90">
-<attribute name="DATASHEET-URL" value="https://katalog.we-online.com/em/datasheet/61300311821.pdf" x="50.8" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="GENDER" value="Socket Header" x="50.8" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="IR" value="3A" x="50.8" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="MATES" value="WR-PHD 2.54mm SMT Pin Header/THT Angled Pin Header/THT Pin Header" x="50.8" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="NAME" x="50.5439" y="13.9724" size="0.8128" layer="25" rot="R90" align="bottom-right"/>
-<attribute name="PACKAGING" value="Tray" x="50.8" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="PART-NUMBER" value=" 61300311821 " x="50.8" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="PINS" value=" 3 " x="50.8" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="ROWS" value="Single" x="50.8" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="TYPE" value="Straight" x="50.8" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="VALUE" x="52.2442" y="14.0524" size="0.8128" layer="27" rot="R90" align="bottom-right"/>
+<element name="J1" library="Wurth_Connectors_WR-PHD" library_urn="urn:adsk.eagle:library:14804658" package="61300311821" package3d_urn="urn:adsk.eagle:package:14805540/2" value="" x="49.53" y="19.05" smashed="yes" rot="R90">
+<attribute name="DATASHEET-URL" value="https://katalog.we-online.com/em/datasheet/61300311821.pdf" x="49.53" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="GENDER" value="Socket Header" x="49.53" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="IR" value="3A" x="49.53" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="MATES" value="WR-PHD 2.54mm SMT Pin Header/THT Angled Pin Header/THT Pin Header" x="49.53" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="NAME" x="49.2739" y="13.9724" size="0.8128" layer="25" rot="R90" align="bottom-right"/>
+<attribute name="PACKAGING" value="Tray" x="49.53" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="PART-NUMBER" value=" 61300311821 " x="49.53" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="PINS" value=" 3 " x="49.53" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="ROWS" value="Single" x="49.53" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="TYPE" value="Straight" x="49.53" y="21.59" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="VALUE" x="50.9742" y="14.0524" size="0.8128" layer="27" rot="R90" align="bottom-right"/>
 </element>
 <element name="HLK2" library="module" package="HLK-PM01" value="HLK-PM013W" x="34.29" y="52.07" smashed="yes" rot="R270">
 <attribute name="NAME" x="41.91" y="67.31" size="1.27" layer="21" rot="R270"/>
@@ -737,22 +737,26 @@ design rules under a new name.</description>
 <signal name="N$1">
 <contactref element="U$2" pad="1"/>
 <contactref element="HLK1" pad="P$2"/>
-<wire x1="7.66" y1="66.77" x2="7.62" y2="74.93" width="0" layer="19" extent="1-1"/>
+<wire x1="7.62" y1="74.93" x2="7.62" y2="66.83375" width="2.54" layer="1"/>
+<wire x1="7.62" y1="66.83375" x2="7.66" y2="66.77" width="0.1524" layer="1"/>
 </signal>
 <signal name="N$3">
 <contactref element="U$2" pad="2"/>
 <contactref element="HLK1" pad="P$1"/>
-<wire x1="12.66" y1="66.77" x2="12.7" y2="74.93" width="0" layer="19" extent="1-1"/>
+<wire x1="12.7" y1="74.93" x2="12.7" y2="66.83375" width="2.54" layer="1"/>
+<wire x1="12.7" y1="66.83375" x2="12.66" y2="66.77" width="0.1524" layer="1"/>
 </signal>
 <signal name="N$5">
 <contactref element="U$1" pad="1"/>
 <contactref element="HLK2" pad="P$2"/>
-<wire x1="31.79" y1="66.77" x2="31.75" y2="74.93" width="0" layer="19" extent="1-1"/>
+<wire x1="31.75" y1="74.93" x2="31.75" y2="66.83375" width="2.54" layer="1"/>
+<wire x1="31.75" y1="66.83375" x2="31.79" y2="66.77" width="0.1524" layer="1"/>
 </signal>
 <signal name="N$6">
 <contactref element="U$1" pad="2"/>
 <contactref element="HLK2" pad="P$1"/>
-<wire x1="36.79" y1="66.77" x2="36.83" y2="74.93" width="0" layer="19" extent="1-1"/>
+<wire x1="36.83" y1="74.93" x2="36.83" y2="66.83375" width="2.54" layer="1"/>
+<wire x1="36.83" y1="66.83375" x2="36.79" y2="66.77" width="0.1524" layer="1"/>
 </signal>
 <signal name="3V3">
 <contactref element="U$3" pad="JP1.8"/>
@@ -762,9 +766,20 @@ design rules under a new name.</description>
 <contactref element="HLK2" pad="P$4"/>
 <contactref element="J2" pad="1"/>
 <contactref element="J1" pad="1"/>
-<wire x1="50.8" y1="16.51" x2="50.8" y2="52.07" width="0" layer="19" extent="1-1"/>
-<wire x1="32.385" y1="27.94" x2="50.8" y2="16.51" width="0" layer="19" extent="1-1"/>
-<wire x1="26.59" y1="37.37" x2="32.385" y2="27.94" width="0" layer="19" extent="1-1"/>
+<wire x1="26.59" y1="37.37" x2="26.59" y2="44.37" width="0.508" layer="1"/>
+<wire x1="27.94" y1="45.72" x2="26.59" y2="44.37" width="0.508" layer="1"/>
+<wire x1="27.94" y1="45.72" x2="49.53" y2="45.72" width="0.508" layer="1"/>
+<wire x1="26.59" y1="44.37" x2="10.24" y2="44.37" width="0.508" layer="1"/>
+<wire x1="10.24" y1="44.37" x2="10.16" y2="44.45" width="0.508" layer="1"/>
+<wire x1="10.16" y1="44.45" x2="9.525" y2="43.815" width="0.508" layer="1"/>
+<wire x1="9.525" y1="43.815" x2="9.525" y2="23.495" width="0.508" layer="1"/>
+<wire x1="9.525" y1="23.495" x2="10.16" y2="22.86" width="0.508" layer="1"/>
+<wire x1="10.16" y1="22.86" x2="33.02" y2="22.86" width="0.508" layer="1"/>
+<wire x1="33.02" y1="22.86" x2="33.02" y2="27.305" width="0.508" layer="1"/>
+<wire x1="33.02" y1="27.305" x2="32.385" y2="27.94" width="0.508" layer="1"/>
+<wire x1="49.53" y1="16.51" x2="34.29" y2="16.51" width="0.508" layer="1"/>
+<wire x1="34.29" y1="16.51" x2="33.02" y2="17.78" width="0.508" layer="1"/>
+<wire x1="33.02" y1="17.78" x2="33.02" y2="22.86" width="0.508" layer="1"/>
 </signal>
 <signal name="N$4">
 <contactref element="U$3" pad="JP2.7"/>
@@ -772,25 +787,47 @@ design rules under a new name.</description>
 <contactref element="HLK1" pad="P$3"/>
 <contactref element="J2" pad="2"/>
 <contactref element="J1" pad="2"/>
-<wire x1="50.8" y1="19.05" x2="50.8" y2="54.61" width="0" layer="19" extent="1-1"/>
-<wire x1="41.99" y1="37.37" x2="50.8" y2="19.05" width="0" layer="19" extent="1-1"/>
-<wire x1="29.845" y1="27.94" x2="41.99" y2="37.37" width="0" layer="19" extent="1-1"/>
-<wire x1="17.86" y1="37.37" x2="29.845" y2="27.94" width="0" layer="19" extent="1-1"/>
+<wire x1="29.845" y1="27.94" x2="29.845" y2="31.115" width="0.508" layer="1"/>
+<wire x1="36.1" y1="37.37" x2="41.99" y2="37.37" width="0.508" layer="1"/>
+<wire x1="29.845" y1="31.115" x2="36.1" y2="37.37" width="0.508" layer="1"/>
+<wire x1="41.99" y1="37.37" x2="41.99" y2="40.72" width="0.508" layer="1"/>
+<wire x1="41.99" y1="40.72" x2="44.45" y2="43.18" width="0.508" layer="1"/>
+<wire x1="44.45" y1="43.18" x2="49.53" y2="43.18" width="0.508" layer="1"/>
+<wire x1="41.99" y1="37.37" x2="41.99" y2="20.24" width="0.508" layer="1"/>
+<wire x1="41.99" y1="20.24" x2="43.18" y2="19.05" width="0.508" layer="1"/>
+<wire x1="43.18" y1="19.05" x2="49.53" y2="19.05" width="0.508" layer="1"/>
+<wire x1="29.845" y1="31.115" x2="27.94" y2="33.02" width="0.508" layer="1"/>
+<wire x1="27.94" y1="33.02" x2="19.05" y2="33.02" width="0.508" layer="1"/>
+<wire x1="19.05" y1="33.02" x2="17.86" y2="34.21" width="0.508" layer="1"/>
+<wire x1="17.86" y1="34.21" x2="17.86" y2="37.37" width="0.508" layer="1"/>
 </signal>
 <signal name="N$7">
 <contactref element="HLK1" pad="P$4"/>
-<contactref element="U$3" pad="JP1.7"/>
-<wire x1="29.845" y1="5.08" x2="2.46" y2="37.37" width="0" layer="19" extent="1-1"/>
+<contactref element="U$3" pad="JP1.3"/>
+<wire x1="2.46" y1="37.37" x2="2.46" y2="8.97" width="0.508" layer="1"/>
+<wire x1="3.81" y1="7.62" x2="19.05" y2="7.62" width="0.508" layer="1"/>
+<wire x1="19.05" y1="7.62" x2="19.685" y2="6.985" width="0.508" layer="1"/>
+<wire x1="19.685" y1="6.985" x2="19.685" y2="5.08" width="0.508" layer="1"/>
+<wire x1="2.46" y1="8.97" x2="3.81" y2="7.62" width="0.508" layer="1"/>
 </signal>
 <signal name="N$8">
 <contactref element="J1" pad="3"/>
-<contactref element="U$3" pad="JP2.3"/>
-<wire x1="19.685" y1="27.94" x2="50.8" y2="21.59" width="0" layer="19" extent="1-1"/>
+<contactref element="U$3" pad="JP1.7"/>
+<wire x1="49.53" y1="21.59" x2="53.34" y2="21.59" width="0.508" layer="1"/>
+<wire x1="53.34" y1="21.59" x2="53.34" y2="8.89" width="0.508" layer="1"/>
+<wire x1="53.34" y1="8.89" x2="52.07" y2="7.62" width="0.508" layer="1"/>
+<wire x1="52.07" y1="7.62" x2="31.75" y2="7.62" width="0.508" layer="1"/>
+<wire x1="31.75" y1="7.62" x2="29.845" y2="5.715" width="0.508" layer="1"/>
+<wire x1="29.845" y1="5.715" x2="29.845" y2="5.08" width="0.508" layer="1"/>
 </signal>
 <signal name="N$9">
-<contactref element="U$3" pad="JP2.4"/>
 <contactref element="J2" pad="3"/>
-<wire x1="22.225" y1="27.94" x2="50.8" y2="57.15" width="0" layer="19" extent="1-1"/>
+<contactref element="U$3" pad="JP1.6"/>
+<wire x1="49.53" y1="40.64" x2="54.61" y2="35.56" width="0.508" layer="1"/>
+<wire x1="54.61" y1="35.56" x2="54.61" y2="2.54" width="0.508" layer="1"/>
+<wire x1="54.61" y1="2.54" x2="27.94" y2="2.54" width="0.508" layer="1"/>
+<wire x1="27.94" y1="2.54" x2="27.305" y2="3.175" width="0.508" layer="1"/>
+<wire x1="27.305" y1="3.175" x2="27.305" y2="5.08" width="0.508" layer="1"/>
 </signal>
 </signals>
 <mfgpreviewcolors>
