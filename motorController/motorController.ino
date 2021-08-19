@@ -9,8 +9,11 @@
 #define WIFI_PASSWORD "abduljabbar"
 
 #define ON D5
+#define ONTWO D6
 #define OFF D7
 #define CURR D8
+#define TURNON HIGH
+#define TURNOFF LOW
 
 
 //Define Firebase Data objects
@@ -22,10 +25,12 @@ String currentCommand, command;
 
 void setup() {
   pinMode(ON, OUTPUT);
+  pinMode(ONTWO, OUTPUT);
   pinMode(OFF, OUTPUT);
   pinMode(CURR, INPUT);
-  digitalWrite(ON, HIGH);
-  digitalWrite(OFF, HIGH);
+  digitalWrite(ON, TURNOFF);
+  digitalWrite(ONTWO, TURNOFF);
+  digitalWrite(OFF, TURNOFF);
  
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -38,9 +43,6 @@ void setup() {
     delay(1000);
     Serial.print(".");
   }
-
-  pinMode(ON, OUTPUT);
-  pinMode(OFF, OUTPUT);
 
   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
   Firebase.reconnectWiFi(true);
@@ -55,19 +57,23 @@ void setup() {
 }
 
 void motorOn() {
+  Serial.println("Turning motor on");
   Serial.println("Button on");
-  digitalWrite(ON, LOW);
+  digitalWrite(ON, TURNON);
+  digitalWrite(ONTWO, TURNON);
   delay(switchingDelaySec * 1000);
   Serial.println("Button off");
-  digitalWrite(ON, HIGH);
+  digitalWrite(ON, TURNOFF);
+  digitalWrite(ONTWO, TURNOFF);
 }
 
 void motorOff() {
+  Serial.println("Turning motor off");
   Serial.println("Button on");
-  digitalWrite(OFF, LOW);
+  digitalWrite(OFF, TURNON);
   delay(switchingDelaySec * 1000);
   Serial.println("Button off");
-  digitalWrite(OFF, HIGH);
+  digitalWrite(OFF, TURNOFF);
 }
 
 
@@ -82,15 +88,16 @@ void loop() {
   Firebase.getString(fd, "/motorController/command/current");
   command = fd.stringData();
 
-  if (command != currentCommand) {
+  if (command != currentCommand && command != "none") {
     Serial.println("Turning motor " + command);
-    if (currentCommand == "on") {
+    if (command == "on") {
       motorOn();
-    } else {
+    } else if (command == "off"){
       motorOff();
     }
   }
 
+  Serial.println("Current state " + currentCommand);
   Firebase.set(fd, "/motorController/state/current", currentCommand);
   Firebase.setTimestamp(fd, "/motorController/state/timestamp");
   

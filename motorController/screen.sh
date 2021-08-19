@@ -1,1 +1,1 @@
-screen /dev/cu.usbserial-144220 144220
+screen /dev/cu.usbserial-${1:-143210} ${1:-143210}
