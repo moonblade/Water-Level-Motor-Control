@@ -49,7 +49,8 @@ const getPercentage = (measurement, minimumValue, maximumValue) => {
 
 const state = {
   on: "on",
-  off: "off"
+  off: "off",
+  none: "none"
 }
 
 const setAutoControl = (value) => {
@@ -59,7 +60,7 @@ const setAutoControl = (value) => {
 
 const setMotorState = (command, data) => {
   debug(`Turning motor ${command}`);
-  if (data) {
+  if (data && command != state.none) {
     if (data.settings.automaticControl != 1) {
       return;
     }
@@ -83,6 +84,8 @@ const controlMotor = (percentages, data) => {
   } else if (data.motorController.state.current == state.off && percentages.every(x => x < data.settings.motorOnThreshold) && data.motorController.command.timestamp < (new Date().getTime() - data.settings.waitBetweenCommands * 60000)) {
     debug(`Water level < ${data.settings.motorOnThreshold}, Turning it ON`);
     setMotorState(state.on, data);
+  } else {
+    setMotorState(state.none, data);
   }
 }
 
