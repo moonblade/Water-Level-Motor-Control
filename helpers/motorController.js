@@ -4,6 +4,7 @@ const api = require("./api");
 let db;
 
 const debug = (...params) => console.log(...params);
+let lastTurnOn = 0;
 
 const isBetweenTimes = (startTime, endTime) => {
 // var endTime = '22:30:00';
@@ -75,7 +76,7 @@ const setMotorState = (command, data) => {
 }
 
 const controlMotor = (percentages, data) => {
-  if (data.motorController.state.current == state.on && data.motorController.command.timestamp < (new Date().getTime() - data.settings.turnMotorOffMins * 60000)) {
+  if (data.motorController.state.current == state.on && lastTurnOn < (new Date().getTime() - data.settings.turnMotorOffMins * 60000)) {
     debug(`Motor on for more than ${data.settings.turnMotorOffMins} minutes, Turning it off`);
     setMotorState(state.off, data);
   } else if (data.motorController.state.current == state.on && percentages.some(x => x > data.settings.motorOffThreshold)) {
@@ -152,6 +153,11 @@ const bootstrap = (_db) => {
     const measurements = removeOutliers(rawMeasurements);
     percentages = setPercent(rawMeasurements, measurements, data);
     controlMotor(percentages, data);
+  });
+  db.child("motorController/state/current").on("value", (snap) => {
+    if (state.on == snap.val()) {
+      lastTurnOn = new Date().getTime();
+    }
   });
 }
 
