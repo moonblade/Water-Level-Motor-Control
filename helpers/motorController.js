@@ -84,7 +84,7 @@ const controlMotor = (percentages, data) => {
   } else if (data.motorController.state.current == state.off && percentages.every(x => x < data.settings.motorOnThreshold) && data.motorController.command.timestamp < (new Date().getTime() - data.settings.waitBetweenCommands * 60000)) {
     debug(`Water level < ${data.settings.motorOnThreshold}, Turning it ON`);
     setMotorState(state.on, data);
-  } else {
+  } else if (data.motorController.command.current !== state.none) {
     setMotorState(state.none, data);
   }
 }
