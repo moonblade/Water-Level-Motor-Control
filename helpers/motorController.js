@@ -92,9 +92,9 @@ const controlMotor = (percentages, data) => {
 
 const getLastMeasurements = async (oldData) => {
    const end = new Date();
-   const start = new Date(end.getTime() - 5 * 60000);
+   const start = new Date(end.getTime() - oldData.settings.startTimeBeforeMinutes * 60000);
    const query = `/query_range?query=measurement&start=${start.toISOString()}&end=${end.toISOString()}&step=15s`;
-   debug("query", query);
+   debug("query", `http://rpi:40001/api/v1${query}`);
    return api.get(query).then(result=> {
      const { data } = result;
      if (data.status == 'success' && data.data && data.data.result) {
