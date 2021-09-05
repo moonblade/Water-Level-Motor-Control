@@ -5,7 +5,8 @@ const { CircularArray } = require('circular-array');
 let db;
 
 const debug = (...params) => console.log(...params);
-const savedValues = new CircularArray(10 * 5);
+// 3 minutes
+const savedValues = new CircularArray(3 * 6);
 let lastTurnOn = 0;
 
 const isBetweenTimes = (startTime, endTime) => {
