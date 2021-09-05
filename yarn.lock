@@ -384,6 +384,11 @@ bytes@3.1.0:
   resolved "https://registry.npmjs.org/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
+circular-array@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.npmjs.org/circular-array/-/circular-array-0.1.2.tgz#79c3c05b7fdbbf460f87f7032a16c1de0327367d"
+  integrity sha512-3M6jv6p5XOMhhbhtCcfaLjrsa9GS/onG82RlNShEtOHx1QEwmTJYplj/46zxpJ4L3UkzI1wWmXE4LZVTixhBRw==
+
 cliui@^7.0.2:
   version "7.0.4"
   resolved "https://registry.npmjs.org/cliui/-/cliui-7.0.4.tgz#a0265ee655476fc807aea9df3df8df7783808b4f"

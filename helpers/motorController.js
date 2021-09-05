@@ -1,9 +1,11 @@
 const config = require("../config/config");
 const api = require("./api");
+const { CircularArray } = require('circular-array');
 // const debug = require("debug")("water-motorHelper");
 let db;
 
 const debug = (...params) => console.log(...params);
+const savedValues = new CircularArray(10 * 5);
 let lastTurnOn = 0;
 
 const isBetweenTimes = (startTime, endTime) => {
@@ -91,26 +93,8 @@ const controlMotor = (percentages, data) => {
 }
 
 const getLastMeasurements = async (oldData) => {
-   const now = new Date();
-   const end = new Date(now.getTime() - oldData.settings.endTimeBeforeMinutes * 60000);
-   const start = new Date(end.getTime() - oldData.settings.startTimeBeforeMinutes * 60000);
-   const query = `/query_range?query=measurement&start=${start.toISOString()}&end=${end.toISOString()}&step=15s`;
-   debug("query", `http://rpi:40001/api/v1${query}`);
-   return api.get(query).then(result=> {
-     const { data } = result;
-     if (data.status == 'success' && data.data && data.data.result) {
-       // debug("result", data.data.result);
-       debug("values", data.data.result[0] && data.data.result[0].values);
-       measurements = data.data.result[0] && data.data.result[0].values.map(x => parseInt(x[1])) || [oldData.waterlevel.measurement];
-       debug("measurements", measurements);
-       return measurements;
-     } else {
-       debug("failure", data);
-       return [];
-     }
-   }).catch(error => {
-     debug("error", error)
-   });
+   savedValues.push(oldData.waterlevel.measurement);
+   return savedValues.array();
 }
 
 const setPercent = (rawMeasurements, measurements, data) => {
@@ -147,7 +131,7 @@ const getDbValue = async (key) => {
 
 const bootstrap = (_db) => {
   db = _db;
-  db.child("waterlevel/measurement").on("value", async () => {
+  db.child("waterlevel/timestamp").on("value", async () => {
     const snapshot = await db.once("value")
     const data = snapshot.val();
     const rawMeasurements = await getLastMeasurements(data);

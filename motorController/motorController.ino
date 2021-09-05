@@ -23,6 +23,11 @@ int waitOnStartMin, switchingDelaySec;
 int inputVal;
 String currentCommand, command;
 
+void printlns(String statement) {
+  Serial.println(statement);
+  Firebase.setAsync(fd, "/logs/" + millis(), currentCommand);
+}
+
 void setup() {
   pinMode(ON, OUTPUT);
   pinMode(ONTWO, OUTPUT);
@@ -57,22 +62,22 @@ void setup() {
 }
 
 void motorOn() {
-  Serial.println("Turning motor on");
-  Serial.println("Button on");
+  printlns("Turning motor on");
+  printlns("Button on");
   digitalWrite(ON, TURNON);
   digitalWrite(ONTWO, TURNON);
   delay(switchingDelaySec * 1000);
-  Serial.println("Button off");
+  printlns("Button off");
   digitalWrite(ON, TURNOFF);
   digitalWrite(ONTWO, TURNOFF);
 }
 
 void motorOff() {
-  Serial.println("Turning motor off");
-  Serial.println("Button on");
+  printlns("Turning motor off");
+  printlns("Button on");
   digitalWrite(OFF, TURNON);
   delay(switchingDelaySec * 1000);
-  Serial.println("Button off");
+  printlns("Button off");
   digitalWrite(OFF, TURNOFF);
 }
 
@@ -89,7 +94,7 @@ void loop() {
   command = fd.stringData();
 
   if (command != currentCommand && command != "none") {
-    Serial.println("Turning motor " + command);
+    printlns("Turning motor " + command);
     if (command == "on") {
       motorOn();
     } else if (command == "off"){
@@ -97,10 +102,10 @@ void loop() {
     }
   }
 
-  Serial.println("Current state " + currentCommand);
+  printlns("Current state " + currentCommand);
   Firebase.set(fd, "/motorController/state/current", currentCommand);
   Firebase.setTimestamp(fd, "/motorController/state/timestamp");
   
-  Serial.println(".");
+  printlns(".");
   delay(10000);
 }
