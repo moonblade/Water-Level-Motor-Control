@@ -5,8 +5,7 @@ const { CircularArray } = require('circular-array');
 let db;
 
 const debug = (...params) => console.log(...params);
-// 3 minutes
-const savedValues = new CircularArray(3 * 6);
+const savedValues = new CircularArray(10);
 let lastTurnOn = 0;
 
 const isBetweenTimes = (startTime, endTime) => {
@@ -37,10 +36,13 @@ function stdDeviation(arr){
  return Math.sqrt(sum / arr.length)
 }
 
-const removeOutliers = arr => {
+const removeOutliers = (data, arr) => {
+  if (data.settings.removeOutliers == 0 || data.motorController.state.current == state.on) {
+    return arr;
+  }
   const avg = average(arr);
   const dev = stdDeviation(arr);
-  arr = arr.filter(x => Math.abs(x - avg) <= dev)
+  arr = arr.filter(x => Math.abs(x - avg) <= dev * 2)
   return arr;
 }
 
@@ -136,7 +138,7 @@ const bootstrap = (_db) => {
     const snapshot = await db.once("value")
     const data = snapshot.val();
     const rawMeasurements = await getLastMeasurements(data);
-    const measurements = removeOutliers(rawMeasurements);
+    const measurements = removeOutliers(data, rawMeasurements);
     percentages = setPercent(rawMeasurements, measurements, data);
     controlMotor(percentages, data);
   });
