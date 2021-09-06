@@ -3,10 +3,10 @@
 
 #define FIREBASE_HOST "water-level-indicator-a555e-default-rtdb.firebaseio.com"  //Change to your Firebase RTDB project ID e.g. Your_Project_ID.firebaseio.com
 #define FIREBASE_AUTH "RSycUEGVNj1wiOVGrmXjQkdpE65voJNJmaGPs3Z7" //Change to your Firebase RTDB secret password
-/* #define WIFI_SSID "sarayi_2" */
-#define WIFI_SSID "Sarayi_ff_24"
-/* #define WIFI_PASSWORD "code||die" */
-#define WIFI_PASSWORD "abduljabbar"
+#define WIFI_SSID "sarayi_2"
+/* #define WIFI_SSID "Sarayi_ff_24" */
+#define WIFI_PASSWORD "code||die"
+/* #define WIFI_PASSWORD "abduljabbar" */
 
 #define ON D5
 #define ONTWO D6
@@ -21,14 +21,18 @@ FirebaseData fd;
 double timestamp;
 int waitOnStartMin, switchingDelaySec;
 int inputVal;
+int shouldLog;
 String currentCommand, command;
 
 void printlns(String statement) {
   Serial.println(statement);
-  Firebase.setAsync(fd, "/logs/" + millis(), currentCommand);
+  if (shouldLog == 1) {
+    Firebase.set(fd, "/logs/" + String(millis()), statement);
+  }
 }
 
 void setup() {
+  shouldLog = 0;
   pinMode(ON, OUTPUT);
   pinMode(ONTWO, OUTPUT);
   pinMode(OFF, OUTPUT);
@@ -93,6 +97,9 @@ void loop() {
   Firebase.getString(fd, "/motorController/command/current");
   command = fd.stringData();
 
+  Firebase.getInt(fd, "/settings/motorControllerLog");
+  shouldLog = fd.intData();
+ 
   if (command != currentCommand && command != "none") {
     printlns("Turning motor " + command);
     if (command == "on") {
