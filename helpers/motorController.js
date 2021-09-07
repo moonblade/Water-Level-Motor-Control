@@ -81,13 +81,14 @@ const setMotorState = (command, data) => {
 }
 
 const controlMotor = (percentages, data) => {
-  if (data.motorController.state.current == state.on && lastTurnOn < (new Date().getTime() - data.settings.turnMotorOffMins * 60000)) {
+  debug("percentages to take decision", percentages);
+  if (data.motorController.state.current == state.on && lastTurnOn <= (new Date().getTime() - data.settings.turnMotorOffMins * 60000)) {
     debug(`Motor on for more than ${data.settings.turnMotorOffMins} minutes, Turning it off`);
     setMotorState(state.off, data);
-  } else if (data.motorController.state.current == state.on && percentages.some(x => x > data.settings.motorOffThreshold)) {
+  } else if (data.motorController.state.current == state.on && percentages.some(x => x >= data.settings.motorOffThreshold)) {
     debug(`Water level > ${data.settings.motorOffThreshold}, Turning it off`);
     setMotorState(state.off, data);
-  } else if (data.motorController.state.current == state.off && percentages.every(x => x < data.settings.motorOnThreshold) && lastTurnOn < (new Date().getTime() - data.settings.waitBetweenCommands * 60000)) {
+  } else if (data.motorController.state.current == state.off && percentages.every(x => x <= data.settings.motorOnThreshold) && lastTurnOn < (new Date().getTime() - data.settings.waitBetweenCommands * 60000)) {
     debug(`Water level < ${data.settings.motorOnThreshold}, Turning it ON`);
     setMotorState(state.on, data);
   } else if (data.motorController.command.current !== state.none) {
