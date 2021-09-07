@@ -49,7 +49,7 @@ Meanwhile, the water level sensor up top decided it wanted to go for a swim and 
 
 The fault implied a wrong connection somewhere in the board. Since this was already wired into the switch board, it was a pain in the ass to test each conenction. Finally figuring out that the board was fine, but I'd connected the two ac to dc convertors in reverse, the sensing one and the power one were interchanged. So connected it properly. And plugged in the new chips. The chips were working properly and doing their job but the raspberry pi code that I'd updated in the meantime was now broken, and the correct commands were not being sent to turn the motor on and off. Sigh. This is integration hell.
 
-Eventually figured it out and corrected it. Now it seems to work fine.
+After two days of hard debugging, finally figured out the issue. It wasn't working ....wait for it..... because it was turned off in the settings. Sigh. Turned it on and it started working without a hitch.
 
 new circuit
 ![image](https://user-images.githubusercontent.com/9362269/132272520-fc4b3dfb-e939-48e7-a574-6e1d59bea94a.png)
