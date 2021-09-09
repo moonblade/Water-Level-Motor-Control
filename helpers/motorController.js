@@ -81,6 +81,10 @@ const setMotorState = (command, data) => {
 }
 
 const controlMotor = (percentages, data) => {
+  if (data.motorController.command.timestamp > new Date().getTime() - data.settings.waitSecondsBetweenAnyCommand * 1000) {
+    debug("Not enough time since last command, exiting");
+    return;
+  }
   debug("percentages to take decision", percentages);
   if (data.motorController.state.current == state.on && lastTurnOn <= (new Date().getTime() - data.settings.turnMotorOffMins * 60000)) {
     debug(`Motor on for more than ${data.settings.turnMotorOffMins} minutes, Turning it off`);
