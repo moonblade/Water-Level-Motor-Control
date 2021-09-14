@@ -14,15 +14,29 @@
 #define CURR D8
 #define TURNON HIGH
 #define TURNOFF LOW
+#define CACHESIZE 5
 
 
 //Define Firebase Data objects
 FirebaseData fd;
-double timestamp;
-int waitOnStartMin, switchingDelaySec;
+double timestamp, lastPercentageUpdate, lastMeasurementUpdate;
+int waitOnStartMin, switchingDelaySec, switchToDirectModeAfterMins;
+int measurement, minVal, maxVal, motorOffThreshold, motorOnThreshold;
 int inputVal;
 int shouldLog;
-String currentCommand, command;
+int currentPercent;
+int lastFivePercent[CACHESIZE];
+int currentIndex = 0;
+String currentState, command;
+
+bool allLowerThan(int value) {
+  for (int i=0; i<CACHESIZE; i++) {
+    if (lastFivePercent[i] > value) {
+      return false;
+    }
+  }
+  return true;
+}
 
 void printlns(String statement) {
   Serial.println(statement);
@@ -61,8 +75,12 @@ void setup() {
   waitOnStartMin = fd.intData();
   Firebase.getInt(fd, "settings/switchingDelaySec");
   switchingDelaySec = fd.intData();
-  currentCommand = "off";
+  currentState = "off";
   delay(waitOnStartMin*60*1000);
+
+  for (int i=0; i<CACHESIZE; ++i) {
+    lastFivePercent[CACHESIZE] = 50;
+  }
 }
 
 void motorOn() {
@@ -85,22 +103,31 @@ void motorOff() {
   digitalWrite(OFF, TURNOFF);
 }
 
-
-
-void loop() {
+void readCurrentState() {
   inputVal = digitalRead(CURR);
   if (inputVal == 1) {
-    currentCommand = "on";
+    currentState = "on";
   } else {
-    currentCommand = "off";
+    currentState = "off";
   }
+
+  // set current state to firebase
+  printlns("Current state " + currentState);
+  Firebase.set(fd, "/motorController/state/current", currentState);
+  Firebase.setTimestamp(fd, "/motorController/state/timestamp");
+}
+
+void initVariables() {
   Firebase.getString(fd, "/motorController/command/current");
   command = fd.stringData();
 
   Firebase.getInt(fd, "/settings/motorControllerLog");
   shouldLog = fd.intData();
  
-  if (command != currentCommand && command != "none") {
+}
+
+void controlMotor() {
+  if (command != currentState && command != "none") {
     printlns("Turning motor " + command);
     if (command == "on") {
       motorOn();
@@ -108,11 +135,73 @@ void loop() {
       motorOff();
     }
   }
+}
 
-  printlns("Current state " + currentCommand);
-  Firebase.set(fd, "/motorController/state/current", currentCommand);
-  Firebase.setTimestamp(fd, "/motorController/state/timestamp");
-  
-  printlns(".");
+bool switchOverToManualMode() {
+  Firebase.getDouble(fd, "/waterlevel/percentageUpdatedAt");
+  lastPercentageUpdate = fd.doubleData();
+
+
+  Firebase.getDouble(fd, "/waterlevel/timestamp");
+  lastMeasurementUpdate = fd.doubleData();
+
+  Firebase.getInt(fd, "/settings/switchToDirectModeAfterMins");
+  switchToDirectModeAfterMins = fd.intData();
+
+  return (lastMeasurementUpdate - lastPercentageUpdate > switchToDirectModeAfterMins * 60 * 1000);
+}
+
+void calculatePercentageAndAddToList() {
+    //find currentPercent
+    Firebase.getInt(fd, "/waterlevel/measurement");
+    measurement = fd.intData();
+    Firebase.getInt(fd, "settings/maximumValue");
+    maxVal = fd.intData();
+    Firebase.getInt(fd, "settings/minimumValue");
+    minVal = fd.intData();
+
+    currentPercent = max(min(100, (100 - (((measurement - minVal) * 100) / max((maxVal - minVal), 1)))), 0);
+
+    //Add it to list
+    lastFivePercent[currentIndex] = currentPercent;
+    currentIndex += 1;
+    currentIndex %= CACHESIZE;
+}
+
+void createCurrentCommand() {
+  Firebase.getInt(fd, "settings/motorOffThreshold");
+  motorOffThreshold = fd.intData();
+
+  Firebase.getInt(fd, "settings/motorOnThreshold");
+  motorOnThreshold = fd.intData();
+
+  if (currentPercent > motorOffThreshold) {
+    command = "off";
+  } else if (allLowerThan(motorOnThreshold)) {
+    command = "on";
+  } else {
+    command = "none";
+  }
+  printlns("Direct mode command is: " + command);
+}
+
+void controlMotorInManualMode() {
+  printlns("Taking over motor control in direct mode");
+  calculatePercentageAndAddToList();
+  createCurrentCommand();
+  controlMotor();
+}
+
+void loop() {
+  readCurrentState();
+
+  initVariables();
+
+  controlMotor();
+
+  if (switchOverToManualMode()) {
+    controlMotorInManualMode();
+  }
+
   delay(10000);
 }
