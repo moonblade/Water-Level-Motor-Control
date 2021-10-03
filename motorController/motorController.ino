@@ -151,7 +151,7 @@ void checkForUpdates() {
 void loop() {
   setCurrentState();
 
-  controlMotor();
+  /* controlMotor(); */
 
   checkForUpdates();
   delay(10000);
