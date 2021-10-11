@@ -116,6 +116,13 @@ String getCommand(int percentage) {
 }
 
 void controlMotor() {
+
+  Firebase.getInt(fd, BASE + "/configuration/autoControl");
+  int autoControl = fd.intData();
+  if (autoControl == 0) {
+    return;
+  }
+
   int percentage = getCurrentPercentage();
 
   String command = getCommand(percentage);
@@ -151,7 +158,7 @@ void checkForUpdates() {
 void loop() {
   setCurrentState();
 
-  /* controlMotor(); */
+  controlMotor();
 
   checkForUpdates();
   delay(10000);
