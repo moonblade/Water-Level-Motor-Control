@@ -21,7 +21,7 @@
 #define CURR D8
 #define TURNON HIGH
 #define TURNOFF LOW
-#define CACHESIZE 5
+#define CACHESIZE 10
 
 // For auto updater
 const String CURRENT_VERSION = String("__BINARY_NAME:motorController__BINARY_VERSION:") + __DATE__ + __TIME__ + "__";
@@ -31,6 +31,18 @@ String latestVersion, downloadUrl;
 //Define Firebase Data objects
 FirebaseData fd;
 String currentState = String("off");
+int lastFivePercent[CACHESIZE];
+int currentIndex = 0;
+
+bool allLowerThan(int value) {
+  for (int i=0; i<CACHESIZE; i++) {
+    if (lastFivePercent[i] > value) {
+      return false;
+    }
+  }
+  return true;
+}
+
 
 void setup() {
   pinMode(ON, OUTPUT);
@@ -55,6 +67,10 @@ void setup() {
 
   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
   Firebase.reconnectWiFi(true);
+
+  for (int i=0; i<CACHESIZE; ++i) {
+    lastFivePercent[CACHESIZE] = 50;
+  }
 }
 
 void motorOn() {
@@ -91,6 +107,12 @@ void setCurrentState() {
   Firebase.setTimestamp(fd, BASE + "/state/timestamp");
 }
 
+void addToList(int currentPercent) {
+  lastFivePercent[currentIndex] = currentPercent;
+  currentIndex += 1;
+  currentIndex %= CACHESIZE;
+}
+
 int getCurrentPercentage() {
   Firebase.getInt(fd, "/waterLevelSensor/output/percentage");
   return fd.intData();
@@ -106,7 +128,8 @@ String getCommand(int percentage) {
   String command = "none";
   if (percentage > motorOffThreshold) {
     command = "off";
-  } else if (percentage < motorOnThreshold) {
+  } else if (allLowerThan(motorOnThreshold)) {
+  /* } else if (percentage < motorOnThreshold) { */
     command = "on";
   } else {
     command = "none";
@@ -124,6 +147,7 @@ void controlMotor() {
   }
 
   int percentage = getCurrentPercentage();
+  addToList(percentage);
 
   String command = getCommand(percentage);
   if (command != currentState && command != "none") {
