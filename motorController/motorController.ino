@@ -34,6 +34,11 @@ String currentState = String("off");
 int lastFivePercent[CACHESIZE];
 int currentIndex = 0;
 
+void printlns(String statement) {
+  Serial.println(statement);
+  Firebase.set(fd, "/logs/" + String(millis()), statement);
+}
+
 bool allLowerThan(int value) {
   for (int i=0; i<CACHESIZE; i++) {
     if (lastFivePercent[i] > value) {
@@ -142,13 +147,14 @@ void controlMotor() {
 
   Firebase.getInt(fd, BASE + "/configuration/autoControl");
   int autoControl = fd.intData();
-  if (autoControl == 0) {
+  if (autoControl != 1) {
     return;
   }
 
   int percentage = getCurrentPercentage();
   addToList(percentage);
 
+  printlns(percentage);
   String command = getCommand(percentage);
   if (command != currentState && command != "none") {
     Serial.println("Turning motor " + command);
