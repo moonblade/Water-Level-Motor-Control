@@ -154,7 +154,7 @@ void controlMotor() {
   int percentage = getCurrentPercentage();
   addToList(percentage);
 
-  printlns(percentage);
+  printlns(String(percentage));
   String command = getCommand(percentage);
   if (command != currentState && command != "none") {
     Serial.println("Turning motor " + command);
