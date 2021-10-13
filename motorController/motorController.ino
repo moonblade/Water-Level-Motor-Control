@@ -153,6 +153,10 @@ void controlMotor() {
     return;
   }
 
+  if (percentage == 0) {
+    return;
+  }
+
   addToList(percentage);
 
   String command = getCommand(percentage);
