@@ -146,15 +146,15 @@ String getCommand(int percentage) {
 void controlMotor() {
 
   Firebase.getInt(fd, BASE + "/configuration/autoControl");
+  int percentage = getCurrentPercentage();
+  printlns(String(percentage));
   int autoControl = fd.intData();
   if (autoControl != 1) {
     return;
   }
 
-  int percentage = getCurrentPercentage();
   addToList(percentage);
 
-  printlns(String(percentage));
   String command = getCommand(percentage);
   if (command != currentState && command != "none") {
     Serial.println("Turning motor " + command);
