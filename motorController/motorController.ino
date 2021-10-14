@@ -36,7 +36,7 @@ int currentIndex = 0;
 
 void printlns(String statement) {
   Serial.println(statement);
-  Firebase.set(fd, "/logs/" + String(millis()), statement);
+  Firebase.set(fd, BASE + "/logs/" + String(millis()), statement);
 }
 
 bool allLowerThan(int value) {
@@ -120,16 +120,27 @@ void addToList(int currentPercent) {
 
 int getCurrentPercentage() {
   Firebase.getInt(fd, "/waterLevelSensor/output/percentage");
+  int percent = fd.intData();
+  if (percent <= 0 || percent > 100) {
+    return 50;
+  }
   return fd.intData();
 }
 
 String getCommand(int percentage) {
   Firebase.getInt(fd, BASE + "/configuration/motorOffThreshold");
   int motorOffThreshold = fd.intData();
+  if (motorOffThreshold < 80 || motorOffThreshold > 100) {
+    motorOffThreshold = 80;
+  }
 
   Firebase.getInt(fd, BASE + "/configuration/motorOnThreshold");
   int motorOnThreshold = fd.intData();
+  if (motorOnThreshold < 0 || motorOnThreshold > 25) {
+    motorOnThreshold = 10;
+  }
 
+  printlns("on: " + String(motorOnThreshold) + ", off: " + String(motorOffThreshold));
   String command = "none";
   if (percentage > motorOffThreshold) {
     command = "off";
@@ -146,9 +157,9 @@ String getCommand(int percentage) {
 void controlMotor() {
 
   Firebase.getInt(fd, BASE + "/configuration/autoControl");
-  int percentage = getCurrentPercentage();
-  printlns(String(percentage));
   int autoControl = fd.intData();
+  int percentage = getCurrentPercentage();
+  printlns("percent: " + String(percentage) + ", autocontrol: " + String(autoControl));
   if (autoControl != 1) {
     return;
   }
