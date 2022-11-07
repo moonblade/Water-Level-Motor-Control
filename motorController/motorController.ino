@@ -9,10 +9,10 @@
 #define FIREBASE_AUTH "RSycUEGVNj1wiOVGrmXjQkdpE65voJNJmaGPs3Z7" 
 
 // Wifi details
-/* #define WIFI_SSID "Sarayi_ff_24" */
-/* #define WIFI_PASSWORD "abduljabbar" */
-#define WIFI_SSID "sarayi_2"
-#define WIFI_PASSWORD "code||die"
+#define WIFI_SSID "Sarayi_ff_24"
+#define WIFI_PASSWORD "abduljabbar"
+/* #define WIFI_SSID "sarayi_2" */
+/* #define WIFI_PASSWORD "code||die" */
 
 // Defaults for operation
 #define ON D5
@@ -36,7 +36,7 @@ int currentIndex = 0;
 
 void printlns(String statement) {
   Serial.println(statement);
-  Firebase.set(fd, BASE + "/logs/" + String(millis()), statement);
+  /* Firebase.set(fd, BASE + "/logs/" + String(millis()), statement); */
 }
 
 bool allLowerThan(int value) {
